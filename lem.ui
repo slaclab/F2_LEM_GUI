@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>978</width>
+    <height>611</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FACET-II LINAC Energy Management</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="banner" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255,149,60);
+color: rgb(0, 34, 130);</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="body" native="true">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="3">
+       <widget class="QFrame" name="LEM_abstr">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="2" column="2">
+          <widget class="PyDMLabel" name="ampl_l0">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L0_AMPL</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="PyDMLabel" name="fudge_l0">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>3</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L0_FUDGE</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="label_3">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>L2</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLabel" name="label_4">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>L3</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="5">
+          <widget class="PyDMLabel" name="fudge_l3">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>3</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L3_FUDGE</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="5">
+          <widget class="PyDMLabel" name="chirp_l3">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L3_CHIRP</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" colspan="5">
+          <widget class="Line" name="line_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="4">
+          <widget class="PyDMLabel" name="fudgle_l2">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>3</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L2_FUDGE</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="PyDMLabel" name="ampl_l1">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L1_AMPL</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="PyDMLabel" name="fudge_l1">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>3</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L1_FUDGE</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>L1</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_6">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>AMPL (MeV)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="label_12">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Fudge</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="4">
+          <widget class="PyDMLabel" name="chirp_l2">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L2_CHIRP</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="PyDMLabel" name="chirp_l1">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L1_CHIRP</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="PyDMLabel" name="ampl_l2">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L2_AMPL</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="PyDMLabel" name="chirp_l0">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L0_CHIRP</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>CHIRP (MeV)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="PyDMLabel" name="ampl_l3">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string>00.0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="precision" stdset="0">
+            <number>0</number>
+           </property>
+           <property name="showUnits" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="precisionFromPV" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="alarmSensitiveBorder" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="PyDMToolTip" stdset="0">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>pva://BMAD:SYS0:1:FACET2E:LEM:L3_AMPL</string>
+           </property>
+           <property name="enableRichText" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>L0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QFrame" name="main_controls">
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="3" column="3">
+          <widget class="QPushButton" name="enable_L3">
+           <property name="text">
+            <string>L3</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2" colspan="2">
+          <widget class="QPushButton" name="ctrl_undo">
+           <property name="text">
+            <string>Undo</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="enable_L1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>L1</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="4">
+          <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="4">
+          <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Region Select</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="enable_L0">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>L0</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QPushButton" name="enable_L2">
+           <property name="text">
+            <string>L2</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <widget class="QPushButton" name="ctrl_trim">
+           <property name="text">
+            <string>Trim to LEM</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="2">
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="pz_tab">
+         <attribute name="title">
+          <string>Error Profiles</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item row="0" column="1">
+           <widget class="PyDMEmbeddedDisplay" name="lem_plots">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="filename" stdset="0">
+             <string>lem_plots.py</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="data_tab">
+         <attribute name="title">
+          <string>Data Table</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QTableWidget" name="LEM_table">
+            <column>
+             <property name="text">
+              <string>Region</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Element</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Device Name</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>EREF (MeV)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>ELEM (MeV)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>EACT (MeV)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>EERR (MeV)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>BLEM (kGm)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>BDES (kGm)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>S (m)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Z (m)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>L (m)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PyDMLabel</class>
+   <extends>QLabel</extends>
+   <header>pydm.widgets.label</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMEmbeddedDisplay</class>
+   <extends>QFrame</extends>
+   <header>pydm.widgets.embedded_display</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
