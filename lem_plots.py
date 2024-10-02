@@ -111,8 +111,8 @@ class F2LEMPlots(Display):
             self.BDESes[reg] = np.array(self.BDESes[reg], dtype=np.float64)
             self.S[reg] =      np.array(self.S[reg], dtype=np.float64)
             exc_blem, exc_bdes = np.array(exc_blem), np.array(exc_bdes)
-            self.BLEM_err[reg] = 100*(self.BLEMs[reg] - self.BDESes[reg])/self.BDESes[reg]
-            self.exc_err[reg] = 100*(exc_blem - exc_bdes)/exc_bdes
+            self.BLEM_err[reg] = 100*(self.BLEMs[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
+            self.exc_err[reg] = 100*(exc_blem - exc_bdes)/np.abs(exc_bdes)
 
         
 
