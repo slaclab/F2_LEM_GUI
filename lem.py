@@ -47,7 +47,7 @@ class F2LEMApp(Display):
         self.regions = ['L0', 'L1', 'L2', 'L3']
         self.LEM_ref_profile = None
         self.backup_profile = None
-        self.backup_bdes = None
+        self.backup_BDES = None
         self.last_LEM_file = None
 
         hdr = self.ui.LEM_table.horizontalHeader()
@@ -92,6 +92,7 @@ class F2LEMApp(Display):
             self._status(repr(E))
 
     def _update_data(self):
+        # fetches new LEM data, live twiss data (for live p(z)) and magnet BDESes
         self.LEM_data = ctx.get(f'{LEM_BASE}:DATA').value
         if self.LEM_ref_profile is None:
             self.LEM_ref_profile = self.LEM_data.EREF
@@ -99,6 +100,10 @@ class F2LEMApp(Display):
             self.LEM_ref_profile = self._get_LEM_ref_profile()
         twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
         self.pz_live = twiss_data.p0c
+
+        self.BDES = np.ndarray(len(self.LEM_data.device_name))
+        for i, dname in enumerate(self.LEM_data.device_name):
+            self.BDES[i] = get_pv(f"{dname}:BDES").value
 
     def _update_LEM_table(self):
         # get LEM data from PVA service & other values from EPICS
@@ -111,6 +116,9 @@ class F2LEMApp(Display):
             for i, elem in enumerate(self.LEM_data.element):
                 if (self.LEM_data.region[i] != reg): continue
                 dname = self.LEM_data.device_name[i]
+
+                self.BDES[i] = get_pv(f"{dname}:BDES").value
+                
                 tbl.insertRow(i)
                 tbl.setItem(i, 0,  QTableWidgetItem(f'{reg}'))
                 tbl.setItem(i, 1,  QTableWidgetItem(f'{elem}'))
@@ -120,14 +128,15 @@ class F2LEMApp(Display):
                 tbl.setItem(i, 5,  QTableWidgetItem(f'{self.LEM_data.EACT[i]:.3f}'))
                 tbl.setItem(i, 6,  QTableWidgetItem(f'{self.LEM_data.EERR[i]:.3f}'))
                 tbl.setItem(i, 7,  QTableWidgetItem(f'{self.LEM_data.BLEM[i]:.3f}'))
-                tbl.setItem(i, 8,  QTableWidgetItem(f'{get_pv(f"{dname}:BDES").value:.3f}'))
+                tbl.setItem(i, 8,  QTableWidgetItem(f'{self.BDES[i]:.3f}'))
                 tbl.setItem(i, 9,  QTableWidgetItem(f'{self.LEM_data.s[i]:.3f}'))
                 tbl.setItem(i, 10, QTableWidgetItem(f'{self.LEM_data.z[i]:.3f}'))
                 tbl.setItem(i, 11, QTableWidgetItem(f'{self.LEM_data.length[i]:.3f}'))
 
     def _trim(self):
         # trim magnets based on the current live momentum profile
-        if self.LEM_ref_profile == self.backup_profile:
+        # if self.backup_BDES == self.BDES:
+        if np.array_equal(self.BDES, self.backup_BDES):
             self._status('Magnets are already set.')
             return
 
@@ -135,19 +144,23 @@ class F2LEMApp(Display):
         # also write to a csv file for later recovery if needed
         # then set magnets & update the reference momentum profile
         self.last_LEM_file = self._write_LEM_data()
-        self.backup_bdes = self.LEM_data.BDES
+        self.backup_BDES = self.BDES
         self.backup_profile = ctx.get(f'{LEM_BASE}:PROFILE')
         self._status(f'Saved previous settings to {self.last_LEM_file}')
-        self._magnet_set()
+
+        self._magnet_set(*self._get_trim_request())
         self._publish_momentum_profile(live=True)
         self.ui.ctrl_undo.setEnabled(True)
+        self._status('Done')
 
     def _undo(self):
         # restores backup momentum profile & magnet settings
         self._status('Undoing trim operation ...')
-        self._magnet_set(undo=True)
+        self.backup_BDES = None
+        self._magnet_set(*self._get_trim_request(undo=True))
         self._publish_momentum_profile(live=False)
         self.ui.ctrl_undo.setEnabled(False)
+        self._status('Done')
 
     def _get_trim_request(self, undo=False):
         # get a list of magnets and BDESes to send to AIDA
@@ -157,24 +170,25 @@ class F2LEMApp(Display):
             for i, device in enumerate(self.LEM_data.device_name):
                 if (self.LEM_data.region[i] != reg): continue
                 dev_list.append(device)
-                if undo: bdes_list.append(self.backup_bdes[i])
+                if undo: bdes_list.append(self.backup_BDES[i])
                 else:    bdes_list.append(self.LEM_data.BLEM[i])
         return dev_list, bdes_list
 
-    def _magnet_set(self, undo=False):
-        # trim magnets to BLEM or to the backup_bdes
+    def _magnet_set(self, device_list, bdes_list):
+        # trim magnets to BLEM or to the backup_BDES
         try:
             self._status('Trimming magnets ...')
-            dev_list, bdes_list = self._get_trim_request(undo=undo)
-            for d,b in zip(dev_list,bdes_list): print(f'{d}: {b}')
-            # slcmag.set_magnets(dev_list, bdes_list)
-            time.sleep(5)
+            print('magnet settings to input:')
+            for d,b in zip(device_list, bdes_list): print(f'  {d}: {b:.4f}')
+            slcmag.set_magnets(device_list, bdes_list)
+            # time.sleep(5)
             self._status('Done.')
         except Exception as E:
             self._status('ERROR: Trim operation failed.')
             self._status(repr(E))
 
     def _publish_momentum_profile(self, live=True, design=False):
+        if live and design: raise ValueError('Invalid args')
         if live:
             msg = 'Publishing reference momentum ...'
             prof = self.LEM_ref_profile
@@ -212,7 +226,8 @@ class F2LEMApp(Display):
                 eact = self.LEM_data.EACT[i]
                 eerr = self.LEM_data.EERR[i]
                 blem = self.LEM_data.BLEM[i]
-                bdes = get_pv(f"{dname}:BDES").value
+                # bdes = get_pv(f"{dname}:BDES").value
+                bdes = self.BDES[i]
                 s, z, l = self.LEM_data.s[i], self.LEM_data.z[i], self.LEM_data.length[i]
                 row = f'{dname},{eref},{elem},{eact},{eerr},{blem},{bdes},{s},{z},{l}\n'
                 txt_lines.append(row)

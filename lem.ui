@@ -1178,6 +1178,9 @@ background-color: rgb(230, 230, 230);
          <layout class="QGridLayout" name="gridLayout_7">
           <item row="0" column="2">
            <widget class="QFrame" name="main_controls_4">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -1361,6 +1364,9 @@ background-color: rgb(230, 230, 230);
           </item>
           <item row="0" column="1">
            <widget class="QFrame" name="main_controls_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
