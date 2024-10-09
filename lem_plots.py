@@ -63,17 +63,23 @@ class F2LEMPlots(Display):
         self.refresh_timer.timeout.connect(self.refresh_plots)
 
     def refresh_plots(self):
-        self._update_LEM_data()
-        self._update_LEM_plots()
+        try:
+            self._update_LEM_data()
+            self._update_LEM_plots()
+        except AttributeError as E:
+            pass
+
 
     def _update_LEM_data(self):
         # get LEM data from PVA service & other values from EPICS
         # make some calculations & pack data into relevant arrays
         LEM_data = ctx.get(f'{LEM_BASE}:DATA').value
+        LEM_ref_profile = ctx.get(f'{LEM_BASE}:PROFILE').value
         twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
 
         self.pz_live = twiss_data.p0c
-        self.E_err = 100*((self.pz_live - self.pz_des) / self.pz_des)
+        self.E_err = 100.0 * (LEM_data.EACT - LEM_ref_profile) / LEM_data.EACT
+
 
         self.BDESes = {}
         self.BLEMs = {}
@@ -82,6 +88,7 @@ class F2LEMPlots(Display):
         # also track matching quads/other presently excluded devices
         self.exc_err = {}
         self.exc_S = {}
+        self.all_S = LEM_data.s
         for reg in self.regions:
             self.BDESes[reg] = []
             self.BLEMs[reg] = []
@@ -95,7 +102,7 @@ class F2LEMPlots(Display):
             for i, elem in enumerate(LEM_data.element):
                 if (LEM_data.region[i] != reg): continue
                 dname = LEM_data.device_name[i]
-                if not dname: continue
+                # if not dname: continue
 
                 bdes, blem = get_pv(f'{dname}:BDES').value, LEM_data.BLEM[i]
                 if elem in qms or reg in ['L0','L1']:
@@ -107,6 +114,7 @@ class F2LEMPlots(Display):
                     self.BDESes[reg].append(bdes)
                     self.BLEMs[reg].append(blem)
 
+            self.all_S = np.array(self.all_S)
             self.BLEMs[reg] =  np.array(self.BLEMs[reg], dtype=np.float64)
             self.BDESes[reg] = np.array(self.BDESes[reg], dtype=np.float64)
             self.S[reg] =      np.array(self.S[reg], dtype=np.float64)
@@ -114,20 +122,19 @@ class F2LEMPlots(Display):
             self.BLEM_err[reg] = 100*(self.BLEMs[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
             self.exc_err[reg] = 100*(exc_blem - exc_bdes)/np.abs(exc_bdes)
 
-        
-
     def _update_LEM_plots(self):
         self.pzdat1.setData(self.f2m.S, self.pz_live)
-        
-        i_OK_E = (np.abs(self.E_err) < LEM_ERROR_TOELRANCE_PCT)
+
+        i_OK_E = np.abs(self.E_err) < LEM_ERROR_TOELRANCE_PCT
         i_bad_E = np.abs(self.E_err) >= LEM_ERROR_TOELRANCE_PCT
         self.bg_E1.setOpts(
-            x=self.f2m.S[i_OK_E], height=self.E_err[i_OK_E],
+            x=self.all_S[i_OK_E], height=self.E_err[i_OK_E],
             width=2, brush='g', pen='g')
         self.bg_E2.setOpts(
-            x=self.f2m.S[i_bad_E], height=self.E_err[i_bad_E],
+            x=self.all_S[i_bad_E], height=self.E_err[i_bad_E],
             width=2, brush='r', pen='r'
             )
+
         for reg in self.regions:
             i_OK_B = np.abs(self.BLEM_err[reg]) < LEM_ERROR_TOELRANCE_PCT 
             i_bad_B = np.abs(self.BLEM_err[reg]) >= LEM_ERROR_TOELRANCE_PCT
