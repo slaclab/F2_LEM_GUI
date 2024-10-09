@@ -54,6 +54,12 @@ color: rgb(0, 34, 130);</string>
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="3">
        <widget class="QFrame" name="LEM_abstr">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>150</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -797,10 +803,16 @@ color: rgb(0, 34, 130);</string>
       </item>
       <item row="1" column="2">
        <widget class="QFrame" name="main_controls">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>150</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>250</width>
-          <height>16777215</height>
+          <height>150</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -828,6 +840,12 @@ color: rgb(0, 34, 130);</string>
          </item>
          <item row="5" column="2" colspan="2">
           <widget class="QPushButton" name="ctrl_undo">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 127);</string>
+           </property>
            <property name="text">
             <string>Undo</string>
            </property>
@@ -900,6 +918,9 @@ color: rgb(0, 34, 130);</string>
          </item>
          <item row="5" column="0" colspan="2">
           <widget class="QPushButton" name="ctrl_trim">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(85, 255, 127);</string>
+           </property>
            <property name="text">
             <string>Trim to LEM</string>
            </property>
@@ -921,7 +942,30 @@ color: rgb(0, 34, 130);</string>
         </layout>
        </widget>
       </item>
-      <item row="0" column="2" colspan="2">
+      <item row="1" column="4">
+       <widget class="PyDMLogDisplay" name="logdisplay">
+        <property name="maximumSize">
+         <size>
+          <width>375</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPlainTextEdit {
+color: rgb(0, 0, 255);
+background-color: rgb(230, 230, 230);
+}
+</string>
+        </property>
+        <property name="logLevel" stdset="0">
+         <enum>PyDMLogDisplay::INFO</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="3">
        <widget class="QTabWidget" name="tabWidget">
         <property name="font">
          <font>
@@ -952,7 +996,7 @@ color: rgb(0, 34, 130);</string>
           <property name="spacing">
            <number>5</number>
           </property>
-          <item row="0" column="1">
+          <item row="0" column="0">
            <widget class="PyDMEmbeddedDisplay" name="lem_plots">
             <property name="toolTip">
              <string/>
@@ -962,18 +1006,11 @@ color: rgb(0, 34, 130);</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="data_tab">
          <attribute name="title">
-          <string>Data Table</string>
+          <string>LEM Data</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_5">
           <property name="leftMargin">
@@ -1129,6 +1166,390 @@ color: rgb(0, 34, 130);</string>
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Klystrons</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>Expert</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="2">
+           <widget class="QFrame" name="main_controls_4">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_9">
+             <item row="1" column="0">
+              <widget class="Line" name="line_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Load previous trim data</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <spacer name="verticalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="4" column="0">
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="text">
+                <string>Trim magnets</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QPushButton" name="pushButton_4">
+               <property name="text">
+                <string>Select File</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QPushButton" name="pushButton_6">
+               <property name="text">
+                <string>Load settings</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QFrame" name="main_controls_2">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_6">
+             <item row="6" column="1" rowspan="2">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Set the LEM reference profile PV (BMAD:SYS0:1:FACET2E:LEM:PROFILE) to match the live momentum profile. This will effectively zero the live momentum error without a trim</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+               <property name="margin">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="Line" name="line_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1" rowspan="2">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Set the LEM reference profile PV (BMAD:SYS0:1:FACET2E:LEM:PROFILE) back to the design value. This will overwrite the settings of the last trim operation.</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+               <property name="margin">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QLabel" name="label_10">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Manipulate reference momentum</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QPushButton" name="pub_prof_live">
+               <property name="text">
+                <string>Set to extant</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QPushButton" name="pub_prof_design">
+               <property name="text">
+                <string>Set to design</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0" colspan="2">
+              <widget class="Line" name="line_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QFrame" name="main_controls_3">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="1" column="0">
+              <widget class="Line" name="line_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Load design lattice</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="0">
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="text">
+                <string>Trim quads</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <spacer name="verticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="3">
+           <widget class="QFrame" name="main_controls_5">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="label_15">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Model server status</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="PyDMLabel" name="PyDMLabel_3">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="alarmSensitiveContent" stdset="0">
+                <bool>true</bool>
+               </property>
+               <property name="channel" stdset="0">
+                <string>F2:WATCHER:MODEL_SERVER_STAT</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="PyDMLabel" name="PyDMLabel">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="channel" stdset="0">
+                <string>PHYS:SYS1:1:MODEL_SERVER</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <spacer name="verticalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="5" column="1">
+              <widget class="PyDMLabel" name="PyDMLabel_2">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="channel" stdset="0">
+                <string>PHYS:SYS1:1:MODEL_SERVER2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="Line" name="line_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="PyDMLabel" name="PyDMLabel_4">
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="alarmSensitiveContent" stdset="0">
+                <bool>true</bool>
+               </property>
+               <property name="channel" stdset="0">
+                <string>F2:WATCHER:MODEL_SERVER2_STAT</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Server 1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string>Server 2</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -1146,6 +1567,11 @@ color: rgb(0, 34, 130);</string>
    <class>PyDMEmbeddedDisplay</class>
    <extends>QFrame</extends>
    <header>pydm.widgets.embedded_display</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMLogDisplay</class>
+   <extends>QWidget</extends>
+   <header>pydm.widgets.logdisplay</header>
   </customwidget>
  </customwidgets>
  <resources/>

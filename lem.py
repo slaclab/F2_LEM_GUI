@@ -3,14 +3,17 @@ import sys
 import time
 import numpy as np
 import yaml
+import logging
+from datetime import datetime
+from functools import partial
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QTableWidgetItem, QWidget, QFrame, QHeaderView
+from PyQt5.QtWidgets import QTableWidgetItem, QHeaderView
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QColor, QFont
 import pyqtgraph as pg
 
 from p4p.client.thread import Context
+from p4p.nt import NTNDArray
 from epics import get_pv
 import pydm
 from pydm import Display
@@ -18,6 +21,7 @@ from pydm import Display
 sys.path.append('/usr/local/facet/tools/python/')
 sys.path.append('/usr/local/facet/tools/python/F2_live_model')
 from F2_live_model.bmad import BmadLiveModel
+from F2_pytools import slc_mags as slcmag
 
 SELF_PATH = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.join(*os.path.split(SELF_PATH)[:-1])
@@ -27,34 +31,81 @@ DIR_CONFIG = os.path.join('/usr/local/facet/tools/python/', 'F2_live_model', 'co
 with open(os.path.join(DIR_CONFIG, 'facet2e.yaml'), 'r') as f:
     CONFIG = yaml.safe_load(f)
 
+DIR_LEM_DATA = '/home/fphysics/zack/scratchdata/'
+
 ctx = Context('pva')
 LEM_BASE = 'BMAD:SYS0:1:FACET2E:LEM'
+
+UPDATE_INTERVAL_MSEC = 1000
 
 
 class F2LEMApp(Display):
     def __init__(self, parent=None, args=None):
         super(F2LEMApp, self).__init__(parent=parent, args=args)
+        self._status('Initializing ...')
+
         self.regions = ['L0', 'L1', 'L2', 'L3']
-        self._startup_timer = QTimer.singleShot(10, self._refresh)
+        self.LEM_ref_profile = None
+        self.backup_profile = None
+        self.backup_bdes = None
+        self.last_LEM_file = None
+
+        hdr = self.ui.LEM_table.horizontalHeader()
+        for i in range(11):
+            hdr.setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
+
+        self.enable_buttons = {
+            'L0': self.ui.enable_L0,
+            'L1': self.ui.enable_L1,
+            'L2': self.ui.enable_L2,
+            'L3': self.ui.enable_L3,
+            }
+        self.ui.ctrl_trim.clicked.connect(self._trim)
+        self.ui.ctrl_undo.clicked.connect(self._undo)
+        self.ui.ctrl_undo.setEnabled(False)
+
+        self.ui.pub_prof_design.clicked.connect(
+            partial(self._publish_momentum_profile, live=False, design=True)
+            )
+        self.ui.pub_prof_live.clicked.connect(
+            partial(self._publish_momentum_profile, live=True)
+            )
+        
+        self.refresh_timer = QTimer(self)
+        self.refresh_timer.start()
+        self.refresh_timer.setInterval(UPDATE_INTERVAL_MSEC)
+        self.refresh_timer.timeout.connect(self._refresh)
+        self._status('Done')
 
     def ui_filename(self): return os.path.join(SELF_PATH, 'lem.ui')
 
+    def _status(self, msg):
+        self.ui.logdisplay.write(f"{datetime.now().strftime('%H:%M:%S')} {msg}")
+        self.ui.logdisplay.repaint()
+
     def _refresh(self):
-        self._update_data()
-        self._update_LEM_table()
+        try:
+            self._update_data()
+            self._update_LEM_table()
+        except Exception as E:
+            self._status('ERROR: LEM data update failed')
+            self._status(repr(E))
 
     def _update_data(self):
         self.LEM_data = ctx.get(f'{LEM_BASE}:DATA').value
-        # self.twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
+        if self.LEM_ref_profile is None:
+            self.LEM_ref_profile = self.LEM_data.EREF
+        else:
+            self.LEM_ref_profile = self._get_LEM_ref_profile()
+        twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
+        self.pz_live = twiss_data.p0c
 
     def _update_LEM_table(self):
         # get LEM data from PVA service & other values from EPICS
         # make some calculations & pack data into relevant arrays
         tbl = self.ui.LEM_table
-        hdr = tbl.horizontalHeader()
-        for i in range(11):
-            hdr.setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
-        hdr.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        tbl.clearContents()
+        tbl.setRowCount(0)
         for reg in self.regions:
             qms = CONFIG['linac'][reg]['matching_quads']
             for i, elem in enumerate(self.LEM_data.element):
@@ -65,7 +116,7 @@ class F2LEMApp(Display):
                 tbl.setItem(i, 1,  QTableWidgetItem(f'{elem}'))
                 tbl.setItem(i, 2,  QTableWidgetItem(f'{dname}'))
                 tbl.setItem(i, 3,  QTableWidgetItem(f'{self.LEM_data.EREF[i]:.3f}'))
-                tbl.setItem(i, 4,  QTableWidgetItem(f'{self.LEM_data.EREF[i]:.3f}'))
+                tbl.setItem(i, 4,  QTableWidgetItem(f'{self.LEM_ref_profile[i]:.3f}'))
                 tbl.setItem(i, 5,  QTableWidgetItem(f'{self.LEM_data.EACT[i]:.3f}'))
                 tbl.setItem(i, 6,  QTableWidgetItem(f'{self.LEM_data.EERR[i]:.3f}'))
                 tbl.setItem(i, 7,  QTableWidgetItem(f'{self.LEM_data.BLEM[i]:.3f}'))
@@ -73,3 +124,108 @@ class F2LEMApp(Display):
                 tbl.setItem(i, 9,  QTableWidgetItem(f'{self.LEM_data.s[i]:.3f}'))
                 tbl.setItem(i, 10, QTableWidgetItem(f'{self.LEM_data.z[i]:.3f}'))
                 tbl.setItem(i, 11, QTableWidgetItem(f'{self.LEM_data.length[i]:.3f}'))
+
+    def _trim(self):
+        # trim magnets based on the current live momentum profile
+        if self.LEM_ref_profile == self.backup_profile:
+            self._status('Magnets are already set.')
+            return
+
+        # save current magnet settings for undo button
+        # also write to a csv file for later recovery if needed
+        # then set magnets & update the reference momentum profile
+        self.last_LEM_file = self._write_LEM_data()
+        self.backup_bdes = self.LEM_data.BDES
+        self.backup_profile = ctx.get(f'{LEM_BASE}:PROFILE')
+        self._status(f'Saved previous settings to {self.last_LEM_file}')
+        self._magnet_set()
+        self._publish_momentum_profile(live=True)
+        self.ui.ctrl_undo.setEnabled(True)
+
+    def _undo(self):
+        # restores backup momentum profile & magnet settings
+        self._status('Undoing trim operation ...')
+        self._magnet_set(undo=True)
+        self._publish_momentum_profile(live=False)
+        self.ui.ctrl_undo.setEnabled(False)
+
+    def _get_trim_request(self, undo=False):
+        # get a list of magnets and BDESes to send to AIDA
+        dev_list, bdes_list = [], []
+        for reg in self.regions:
+            if not self.enable_buttons[reg].isChecked(): continue
+            for i, device in enumerate(self.LEM_data.device_name):
+                if (self.LEM_data.region[i] != reg): continue
+                dev_list.append(device)
+                if undo: bdes_list.append(self.backup_bdes[i])
+                else:    bdes_list.append(self.LEM_data.BLEM[i])
+        return dev_list, bdes_list
+
+    def _magnet_set(self, undo=False):
+        # trim magnets to BLEM or to the backup_bdes
+        try:
+            self._status('Trimming magnets ...')
+            dev_list, bdes_list = self._get_trim_request(undo=undo)
+            for d,b in zip(dev_list,bdes_list): print(f'{d}: {b}')
+            # slcmag.set_magnets(dev_list, bdes_list)
+            time.sleep(5)
+            self._status('Done.')
+        except Exception as E:
+            self._status('ERROR: Trim operation failed.')
+            self._status(repr(E))
+
+    def _publish_momentum_profile(self, live=True, design=False):
+        if live:
+            msg = 'Publishing reference momentum ...'
+            prof = self.LEM_ref_profile
+        elif design:
+            msg = 'Setting reference momentum to design ...'
+            prof = self.LEM_data.EREF
+        else:
+            msg = 'Resetting reference momentum ...'
+            prof = self.backup_profile
+
+        self._status(msg)
+        r = ctx.put(f'{LEM_BASE}:PROFILE', NTNDArray().wrap(prof))
+
+    def _get_LEM_ref_profile(self):
+        # get the energy profile at time of trim request
+        # to be written to BMAD:SYS0:1:FACET2E:LEM:PROFILE
+        prof = np.ndarray(len(self.LEM_data.device_name))
+        for i, device in enumerate(self.LEM_data.device_name):
+            if not self.enable_buttons[self.LEM_data.region[i]].isChecked():
+                prof[i] =  self.LEM_ref_profile[i]
+            else:
+                prof[i] = self.LEM_data.EACT[i]
+        return prof
+
+    def _write_LEM_data(self):
+        # write LEM info to a .csv for retrieval as needed
+        txt_lines = []
+        for reg in self.regions:
+            qms = CONFIG['linac'][reg]['matching_quads']
+            for i, elem in enumerate(self.LEM_data.element):
+                if (self.LEM_data.region[i] != reg): continue
+                dname = self.LEM_data.device_name[i]
+                eref = self.LEM_data.EREF[i]
+                elem = self.LEM_ref_profile[i]
+                eact = self.LEM_data.EACT[i]
+                eerr = self.LEM_data.EERR[i]
+                blem = self.LEM_data.BLEM[i]
+                bdes = get_pv(f"{dname}:BDES").value
+                s, z, l = self.LEM_data.s[i], self.LEM_data.z[i], self.LEM_data.length[i]
+                row = f'{dname},{eref},{elem},{eact},{eerr},{blem},{bdes},{s},{z},{l}\n'
+                txt_lines.append(row)
+
+        fname = os.path.join(DIR_LEM_DATA, f"LEMdata_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv")
+        with open(fname, 'w') as f: f.write(''.join([l for l in txt_lines]))
+        return fname
+
+    def _read_LEM_data(self, fname=None):
+        # load LEM trim info from a .csv file
+        # if fname is not provided, get the most recent available trim
+        with open(fname, 'r') as f: txt_lines = f.readlines()
+
+        print(txt_lines)
+
+        return
