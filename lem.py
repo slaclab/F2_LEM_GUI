@@ -148,7 +148,10 @@ class F2LEMApp(Display):
         self.backup_profile = ctx.get(f'{LEM_BASE}:PROFILE')
         self._status(f'Saved previous settings to {self.last_LEM_file}')
 
-        self._magnet_set(*self._get_trim_request())
+        SLC_dev, SLC_bdes, EPICS_dev, EPICS_bdes = self._get_trim_request()
+        self._magnet_set(EPICS_dev, EPICS_bdes, magtype='EPICS')
+        self._magnet_set(SLC_dev, SLC_bdes, magtype='SLC')
+
         self._publish_momentum_profile(live=True)
         self.ui.ctrl_undo.setEnabled(True)
         self._status('Done')
@@ -157,35 +160,50 @@ class F2LEMApp(Display):
         # restores backup momentum profile & magnet settings
         self._status('Undoing trim operation ...')
         self.backup_BDES = None
-        self._magnet_set(*self._get_trim_request(undo=True))
+
+        SLC_dev, SLC_bdes, EPICS_dev, EPICS_bdes = self._get_trim_request(undo=True)
+        self._magnet_set(EPICS_dev, EPICS_bdes, magtype='EPICS')
+        self._magnet_set(SLC_dev, SLC_bdes, magtype='SLC')
+
         self._publish_momentum_profile(live=False)
         self.ui.ctrl_undo.setEnabled(False)
         self._status('Done')
 
     def _get_trim_request(self, undo=False):
         # get a list of magnets and BDESes to send to AIDA
-        dev_list, bdes_list = [], []
+        SLC_dev, SLC_bdes = [], []
+        EPICS_dev, EPICS_bdes = [], []
         for reg in self.regions:
             if not self.enable_buttons[reg].isChecked(): continue
             for i, device in enumerate(self.LEM_data.device_name):
                 if (self.LEM_data.region[i] != reg): continue
-                dev_list.append(device)
+                if device[:4] == 'QUAD':
+                    bdes_list = EPICS_bdes
+                    EPICS_dev.append(device)
+                else:
+                    bdes_list = SLC_bdes
+                    SLC_dev.append(device)
                 if undo: bdes_list.append(self.backup_BDES[i])
                 else:    bdes_list.append(self.LEM_data.BLEM[i])
-        return dev_list, bdes_list
+        return SLC_dev, SLC_bdes, EPICS_dev, EPICS_bdes
 
-    def _magnet_set(self, device_list, bdes_list):
+    def _magnet_set(self, device_list, bdes_list, magtype='EPICS'):
         # trim magnets to BLEM or to the backup_BDES
         try:
-            self._status('Trimming magnets ...')
+            self._status(f'Trimming {type} magnets ...')
             print('magnet settings to input:')
             for d,b in zip(device_list, bdes_list): print(f'  {d}: {b:.4f}')
-            slcmag.set_magnets(device_list, bdes_list)
-            # time.sleep(5)
+            if magtype == 'EPICS':
+                for dev, bdes in zip(device_list, bdes_list):
+                get_pv(f'{dev}BDES').put(bdes)
+            elif magtype == 'SLC':
+                slcmag.set_magnets(device_list, bdes_list)
             self._status('Done.')
+
         except Exception as E:
             self._status('ERROR: Trim operation failed.')
             self._status(repr(E))
+
 
     def _publish_momentum_profile(self, live=True, design=False):
         if live and design: raise ValueError('Invalid args')
