@@ -195,7 +195,7 @@ class F2LEMApp(Display):
             for d,b in zip(device_list, bdes_list): print(f'  {d}: {b:.4f}')
             if magtype == 'EPICS':
                 for dev, bdes in zip(device_list, bdes_list):
-                get_pv(f'{dev}BDES').put(bdes)
+                    get_pv(f'{dev}BDES').put(bdes)
             elif magtype == 'SLC':
                 slcmag.set_magnets(device_list, bdes_list)
             self._status('Done.')
