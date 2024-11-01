@@ -78,7 +78,6 @@ class F2LEMApp(Display):
                     continue
                 klys_name = f'KLYS:LI{int(s)}:{int(k)}1'
                 btn = f2widgets.F2KlysToggleButton(klys_name)
-                btn.setMaximumWidth(55)
                 self.buttons[klys_name] = btn
                 container.layout().addWidget(btn)
 
