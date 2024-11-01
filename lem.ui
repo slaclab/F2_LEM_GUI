@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>978</width>
-    <height>611</height>
+    <width>1200</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,6 +52,170 @@ color: rgb(0, 34, 130);</string>
    <item>
     <widget class="QWidget" name="body" native="true">
      <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="2">
+       <widget class="QFrame" name="main_controls">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="3" column="3">
+          <widget class="QPushButton" name="enable_L3">
+           <property name="text">
+            <string>L3</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2" colspan="2">
+          <widget class="QPushButton" name="ctrl_undo">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 127);</string>
+           </property>
+           <property name="text">
+            <string>Undo</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="enable_L1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>L1</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="4">
+          <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="4">
+          <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Region Select</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="enable_L0">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>L0</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QPushButton" name="enable_L2">
+           <property name="text">
+            <string>L2</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <widget class="QPushButton" name="ctrl_trim">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(85, 255, 127);</string>
+           </property>
+           <property name="text">
+            <string>Trim to LEM</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="PyDMLogDisplay" name="logdisplay">
+        <property name="maximumSize">
+         <size>
+          <width>375</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPlainTextEdit {
+color: rgb(0, 0, 255);
+background-color: rgb(230, 230, 230);
+}
+</string>
+        </property>
+        <property name="logLevel" stdset="0">
+         <enum>PyDMLogDisplay::INFO</enum>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="3">
        <widget class="QFrame" name="LEM_abstr">
         <property name="maximumSize">
@@ -801,18 +965,12 @@ color: rgb(0, 34, 130);</string>
         </layout>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QFrame" name="main_controls">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>150</height>
-         </size>
-        </property>
+      <item row="1" column="4">
+       <widget class="QFrame" name="main_controls_5">
         <property name="maximumSize">
          <size>
-          <width>250</width>
-          <height>150</height>
+          <width>160</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -824,61 +982,19 @@ color: rgb(0, 34, 130);</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="3" column="3">
-          <widget class="QPushButton" name="enable_L3">
-           <property name="text">
-            <string>L3</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2" colspan="2">
-          <widget class="QPushButton" name="ctrl_undo">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 127);</string>
-           </property>
-           <property name="text">
-            <string>Undo</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
+        <layout class="QGridLayout" name="gridLayout_10">
          <item row="3" column="1">
-          <widget class="QPushButton" name="enable_L1">
-           <property name="enabled">
-            <bool>false</bool>
+          <widget class="PyDMLabel" name="PyDMLabel">
+           <property name="toolTip">
+            <string/>
            </property>
-           <property name="text">
-            <string>L1</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
+           <property name="channel" stdset="0">
+            <string>PHYS:SYS1:1:MODEL_SERVER</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="4">
-          <widget class="Line" name="line_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="4">
-          <widget class="QLabel" name="label_9">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label_15">
            <property name="font">
             <font>
              <weight>75</weight>
@@ -886,86 +1002,71 @@ color: rgb(0, 34, 130);</string>
             </font>
            </property>
            <property name="text">
-            <string>Region Select</string>
+            <string>Model server status</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="enable_L0">
-           <property name="enabled">
-            <bool>false</bool>
+         <item row="2" column="1">
+          <widget class="PyDMLabel" name="PyDMLabel_3">
+           <property name="toolTip">
+            <string/>
            </property>
-           <property name="text">
-            <string>L0</string>
-           </property>
-           <property name="checkable">
+           <property name="alarmSensitiveContent" stdset="0">
             <bool>true</bool>
            </property>
+           <property name="channel" stdset="0">
+            <string>F2:WATCHER:MODEL_SERVER_STAT</string>
+           </property>
           </widget>
          </item>
-         <item row="3" column="2">
-          <widget class="QPushButton" name="enable_L2">
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_8">
            <property name="text">
-            <string>L2</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string>Server 1</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="0" colspan="2">
-          <widget class="QPushButton" name="ctrl_trim">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(85, 255, 127);</string>
-           </property>
-           <property name="text">
-            <string>Trim to LEM</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="3">
-          <spacer name="verticalSpacer">
+         <item row="1" column="0" colspan="2">
+          <widget class="Line" name="line_10">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="PyDMLabel" name="PyDMLabel_4">
+           <property name="toolTip">
+            <string/>
            </property>
-          </spacer>
+           <property name="alarmSensitiveContent" stdset="0">
+            <bool>true</bool>
+           </property>
+           <property name="channel" stdset="0">
+            <string>F2:WATCHER:MODEL_SERVER2_STAT</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="PyDMLabel" name="PyDMLabel_2">
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="channel" stdset="0">
+            <string>PHYS:SYS1:1:MODEL_SERVER2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Server 2</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="1" column="4">
-       <widget class="PyDMLogDisplay" name="logdisplay">
-        <property name="maximumSize">
-         <size>
-          <width>375</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPlainTextEdit {
-color: rgb(0, 0, 255);
-background-color: rgb(230, 230, 230);
-}
-</string>
-        </property>
-        <property name="logLevel" stdset="0">
-         <enum>PyDMLogDisplay::INFO</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" colspan="3">
+      <item row="0" column="2" colspan="4">
        <widget class="QTabWidget" name="tabWidget">
         <property name="font">
          <font>
@@ -974,7 +1075,7 @@ background-color: rgb(230, 230, 230);
          </font>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pz_tab">
          <attribute name="title">
@@ -1179,7 +1280,12 @@ background-color: rgb(230, 230, 230);
         </widget>
         <widget class="QWidget" name="tab">
          <attribute name="title">
-          <string>Klystrons</string>
+          <string>Klystron Status</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="tab_3">
+         <attribute name="title">
+          <string>Klystron Complement</string>
          </attribute>
         </widget>
         <widget class="QWidget" name="tab_2">
@@ -1187,10 +1293,10 @@ background-color: rgb(230, 230, 230);
           <string>Expert</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_7">
-          <item row="0" column="2">
-           <widget class="QFrame" name="main_controls_4">
+          <item row="0" column="1">
+           <widget class="QFrame" name="main_controls_3">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
@@ -1201,29 +1307,23 @@ background-color: rgb(230, 230, 230);
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QGridLayout" name="gridLayout_9">
-             <item row="1" column="0">
-              <widget class="Line" name="line_9">
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="2" column="0">
+              <widget class="QRadioButton" name="setScaleDesign">
+               <property name="text">
+                <string>LEM to design</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="Line" name="line_8">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_14">
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Load previous trim data</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <spacer name="verticalSpacer_6">
+             <item row="6" column="0">
+              <spacer name="verticalSpacer_7">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -1235,29 +1335,84 @@ background-color: rgb(230, 230, 230);
                </property>
               </spacer>
              </item>
-             <item row="4" column="0">
-              <widget class="QPushButton" name="pushButton_5">
+             <item row="5" column="1" rowspan="2">
+              <widget class="QLabel" name="label_18">
                <property name="text">
-                <string>Trim magnets</string>
+                <string>The &quot;extant&quot; convention scales magnets by the ratio of the current:previous momenta.</string>
                </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QPushButton" name="pushButton_4">
-               <property name="text">
-                <string>Select File</string>
+               <property name="wordWrap">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
              <item row="3" column="0">
-              <widget class="QPushButton" name="pushButton_6">
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="1" rowspan="2">
+              <widget class="QLabel" name="label_17">
                <property name="text">
-                <string>Load settings</string>
+                <string>The &quot;design&quot; scaling convention calculates field strengths from first principles using the design lattice.</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QRadioButton" name="setScaleExtant">
+               <property name="text">
+                <string>LEM to extant</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>LEM Scaling Convention</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0" colspan="2">
+              <widget class="Line" name="line_11">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
+          </item>
+          <item row="1" column="0">
+           <spacer name="verticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item row="0" column="0">
            <widget class="QFrame" name="main_controls_2">
@@ -1373,10 +1528,10 @@ background-color: rgb(230, 230, 230);
             </layout>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QFrame" name="main_controls_3">
+          <item row="0" column="2">
+           <widget class="QFrame" name="main_controls_4">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
@@ -1387,23 +1542,29 @@ background-color: rgb(230, 230, 230);
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QGridLayout" name="gridLayout_8">
+            <layout class="QGridLayout" name="gridLayout_9">
              <item row="1" column="0">
-              <widget class="Line" name="line_8">
+              <widget class="Line" name="line_9">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
-              <widget class="QRadioButton" name="setScaleDesign">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
-                <string>LEM to design</string>
+                <string>Load previous trim data</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <spacer name="verticalSpacer_4">
+             <item row="5" column="0">
+              <spacer name="verticalSpacer_6">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -1415,147 +1576,24 @@ background-color: rgb(230, 230, 230);
                </property>
               </spacer>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
+             <item row="4" column="0">
+              <widget class="QPushButton" name="pushButton_5">
                <property name="text">
-                <string>LEM Scaling Convention</string>
+                <string>Trim magnets</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QPushButton" name="pushButton_4">
+               <property name="text">
+                <string>Select File</string>
                </property>
               </widget>
              </item>
              <item row="3" column="0">
-              <widget class="QRadioButton" name="setScaleExtant">
+              <widget class="QPushButton" name="pushButton_6">
                <property name="text">
-                <string>LEM to extant</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <spacer name="verticalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="3">
-           <widget class="QFrame" name="main_controls_5">
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_10">
-             <item row="0" column="0" colspan="2">
-              <widget class="QLabel" name="label_15">
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Model server status</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="PyDMLabel" name="PyDMLabel_3">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="alarmSensitiveContent" stdset="0">
-                <bool>true</bool>
-               </property>
-               <property name="channel" stdset="0">
-                <string>F2:WATCHER:MODEL_SERVER_STAT</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="PyDMLabel" name="PyDMLabel">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="channel" stdset="0">
-                <string>PHYS:SYS1:1:MODEL_SERVER</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
-              <spacer name="verticalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="5" column="1">
-              <widget class="PyDMLabel" name="PyDMLabel_2">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="channel" stdset="0">
-                <string>PHYS:SYS1:1:MODEL_SERVER2</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0" colspan="2">
-              <widget class="Line" name="line_10">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="PyDMLabel" name="PyDMLabel_4">
-               <property name="toolTip">
-                <string/>
-               </property>
-               <property name="alarmSensitiveContent" stdset="0">
-                <bool>true</bool>
-               </property>
-               <property name="channel" stdset="0">
-                <string>F2:WATCHER:MODEL_SERVER2_STAT</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>Server 1</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_16">
-               <property name="text">
-                <string>Server 2</string>
+                <string>Load settings</string>
                </property>
               </widget>
              </item>
@@ -1574,6 +1612,32 @@ background-color: rgb(230, 230, 230);
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>WARNING: EXPERTS ONLY</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="4">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>If you're not an expert, please contact Zack or other FACET team memebers for help with LEM settings</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
