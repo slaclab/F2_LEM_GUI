@@ -127,11 +127,12 @@ class F2LEMApp(Display):
                 tbl.setItem(i, 4,  QTableWidgetItem(f'{self.LEM_ref_profile[i]:.3f}'))
                 tbl.setItem(i, 5,  QTableWidgetItem(f'{self.LEM_data.EACT[i]:.3f}'))
                 tbl.setItem(i, 6,  QTableWidgetItem(f'{self.LEM_data.EERR[i]:.3f}'))
-                tbl.setItem(i, 7,  QTableWidgetItem(f'{self.LEM_data.BLEM[i]:.3f}'))
-                tbl.setItem(i, 8,  QTableWidgetItem(f'{self.BDES[i]:.3f}'))
-                tbl.setItem(i, 9,  QTableWidgetItem(f'{self.LEM_data.s[i]:.3f}'))
-                tbl.setItem(i, 10, QTableWidgetItem(f'{self.LEM_data.z[i]:.3f}'))
-                tbl.setItem(i, 11, QTableWidgetItem(f'{self.LEM_data.length[i]:.3f}'))
+                tbl.setItem(i, 7,  QTableWidgetItem(f'{self.LEM_data.BLEM_DESIGN[i]:.3f}'))
+                tbl.setItem(i, 8,  QTableWidgetItem(f'{self.LEM_data.BLEM_EXTANT[i]:.3f}'))
+                tbl.setItem(i, 9,  QTableWidgetItem(f'{self.BDES[i]:.3f}'))
+                tbl.setItem(i, 10,  QTableWidgetItem(f'{self.LEM_data.s[i]:.3f}'))
+                tbl.setItem(i, 11, QTableWidgetItem(f'{self.LEM_data.z[i]:.3f}'))
+                tbl.setItem(i, 12, QTableWidgetItem(f'{self.LEM_data.length[i]:.3f}'))
 
     def _trim(self):
         # trim magnets based on the current live momentum profile
@@ -183,8 +184,12 @@ class F2LEMApp(Display):
                 else:
                     bdes_list = SLC_bdes
                     SLC_dev.append(device)
-                if undo: bdes_list.append(self.backup_BDES[i])
-                else:    bdes_list.append(self.LEM_data.BLEM[i])
+                if undo:
+                    bdes_list.append(self.backup_BDES[i])
+                elif self.ui.setScaleDesign.isChecked():
+                    bdes_list.append(self.LEM_data.BLEM_DESIGN[i])
+                elif self.ui.setScaleExtant.isChecked():
+                    bdes_list.append(self.LEM_data.BLEM_EXTANT[i])
         return SLC_dev, SLC_bdes, EPICS_dev, EPICS_bdes
 
     def _magnet_set(self, device_list, bdes_list, magtype='EPICS'):
@@ -243,11 +248,12 @@ class F2LEMApp(Display):
                 elem = self.LEM_ref_profile[i]
                 eact = self.LEM_data.EACT[i]
                 eerr = self.LEM_data.EERR[i]
-                blem = self.LEM_data.BLEM[i]
+                blem_des = self.LEM_data.BLEM_DESIGN[i]
+                blem_ext = self.LEM_data.BLEM_EXTANT[i]
                 # bdes = get_pv(f"{dname}:BDES").value
                 bdes = self.BDES[i]
                 s, z, l = self.LEM_data.s[i], self.LEM_data.z[i], self.LEM_data.length[i]
-                row = f'{dname},{eref},{elem},{eact},{eerr},{blem},{bdes},{s},{z},{l}\n'
+                row = f'{dname},{eref},{elem},{eact},{eerr},{blem_des},{blem_ext},{bdes},{s},{z},{l}\n'
                 txt_lines.append(row)
 
         fname = os.path.join(DIR_LEM_DATA, f"LEMdata_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv")

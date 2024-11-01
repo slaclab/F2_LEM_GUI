@@ -974,7 +974,7 @@ background-color: rgb(230, 230, 230);
          </font>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="pz_tab">
          <attribute name="title">
@@ -1109,7 +1109,18 @@ background-color: rgb(230, 230, 230);
             </column>
             <column>
              <property name="text">
-              <string>BLEM (kGm)</string>
+              <string>BLEM_DESIGN (kGm)</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>BLEM_EXTANT(kGm)</string>
              </property>
              <property name="font">
               <font>
@@ -1365,7 +1376,7 @@ background-color: rgb(230, 230, 230);
           <item row="0" column="1">
            <widget class="QFrame" name="main_controls_3">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
@@ -1384,20 +1395,14 @@ background-color: rgb(230, 230, 230);
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
+             <item row="2" column="0">
+              <widget class="QRadioButton" name="setScaleDesign">
                <property name="text">
-                <string>Load design lattice</string>
+                <string>LEM to design</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
+             <item row="4" column="0">
               <spacer name="verticalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -1410,10 +1415,26 @@ background-color: rgb(230, 230, 230);
                </property>
               </spacer>
              </item>
-             <item row="2" column="0">
-              <widget class="QPushButton" name="pushButton_3">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
-                <string>Trim quads</string>
+                <string>LEM Scaling Convention</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QRadioButton" name="setScaleExtant">
+               <property name="text">
+                <string>LEM to extant</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

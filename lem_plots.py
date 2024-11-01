@@ -44,11 +44,12 @@ UPDATE_INTERVAL_MSEC = 200
 LEM_ERROR_TOELRANCE_PCT = 2.0
 
 class F2LEMPlots(Display):
-    def __init__(self, parent=None, args=None):
+    def __init__(self, extant=True, parent=None, args=None):
         super(F2LEMPlots, self).__init__(parent=parent, args=args)
         self.regions = ['L0', 'L1', 'L2', 'L3']
         self._startup_timer = QTimer.singleShot(10, self._startup)
         self.show_exc_err = True
+        self.extant = extant
 
     def ui_filename(self): return os.path.join(SELF_PATH, 'lem_plots.ui')
 
@@ -69,7 +70,6 @@ class F2LEMPlots(Display):
         except AttributeError as E:
             pass
 
-
     def _update_LEM_data(self):
         # get LEM data from PVA service & other values from EPICS
         # make some calculations & pack data into relevant arrays
@@ -78,13 +78,14 @@ class F2LEMPlots(Display):
         twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
 
         self.pz_live = twiss_data.p0c
-        self.E_err = 100.0 * (LEM_data.EACT - LEM_ref_profile) / LEM_data.EACT
-
+        self.E_err = 100 * (LEM_data.EACT - LEM_ref_profile) / LEM_data.EACT
 
         self.BDESes = {}
         self.BLEMs = {}
+        self.BLEMs_ext = {}
         self.S = {}
         self.BLEM_err = {}
+        self.BLEM_ext_err = {}
         # also track matching quads/other presently excluded devices
         self.exc_err = {}
         self.exc_S = {}
@@ -92,34 +93,39 @@ class F2LEMPlots(Display):
         for reg in self.regions:
             self.BDESes[reg] = []
             self.BLEMs[reg] = []
+            self.BLEMs_ext[reg] = []
+            self.BLEM_ext_err[reg] = {}
             self.S[reg] = []
             self.exc_S[reg] = []
             self.exc_err[reg] = []
             exc_blem = []
             exc_bdes = []
             qms = CONFIG['linac'][reg]['matching_quads']
-
+            
             for i, elem in enumerate(LEM_data.element):
                 if (LEM_data.region[i] != reg): continue
                 dname = LEM_data.device_name[i]
                 # if not dname: continue
 
-                bdes, blem = get_pv(f'{dname}:BDES').value, LEM_data.BLEM[i]
+                bdes = get_pv(f'{dname}:BDES').value
                 if elem in qms or reg in ['L0','L1']:
                     self.exc_S[reg].append(LEM_data.s[i])
                     exc_bdes.append(bdes)
-                    exc_blem.append(blem)
+                    exc_blem.append(LEM_data.BLEM_EXTANT[i])
                 else:
                     self.S[reg].append(LEM_data.s[i])
                     self.BDESes[reg].append(bdes)
-                    self.BLEMs[reg].append(blem)
+                    self.BLEMs[reg].append(LEM_data.BLEM_DESIGN[i])
+                    self.BLEMs_ext[reg].append(LEM_data.BLEM_EXTANT[i])
 
             self.all_S = np.array(self.all_S)
-            self.BLEMs[reg] =  np.array(self.BLEMs[reg], dtype=np.float64)
-            self.BDESes[reg] = np.array(self.BDESes[reg], dtype=np.float64)
-            self.S[reg] =      np.array(self.S[reg], dtype=np.float64)
-            exc_blem, exc_bdes = np.array(exc_blem), np.array(exc_bdes)
+            self.BLEMs[reg] =      np.array(self.BLEMs[reg], dtype=np.float64)
+            self.BLEMs_ext[reg] =  np.array(self.BLEMs_ext[reg], dtype=np.float64)
+            self.BDESes[reg] =     np.array(self.BDESes[reg], dtype=np.float64)
+            self.S[reg] =          np.array(self.S[reg], dtype=np.float64)
+            exc_blem, exc_bdes =   np.array(exc_blem), np.array(exc_bdes)
             self.BLEM_err[reg] = 100*(self.BLEMs[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
+            self.BLEM_ext_err[reg] = 100*(self.BLEMs_ext[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
             self.exc_err[reg] = 100*(exc_blem - exc_bdes)/np.abs(exc_bdes)
 
     def _update_LEM_plots(self):
@@ -135,15 +141,18 @@ class F2LEMPlots(Display):
             width=2, brush='r', pen='r'
             )
 
+        if self.extant: errs = self.BLEM_ext_err
+        else: errs = self.BLEM_err
+
         for reg in self.regions:
-            i_OK_B = np.abs(self.BLEM_err[reg]) < LEM_ERROR_TOELRANCE_PCT 
-            i_bad_B = np.abs(self.BLEM_err[reg]) >= LEM_ERROR_TOELRANCE_PCT
+            i_OK_B = np.abs(errs[reg]) < LEM_ERROR_TOELRANCE_PCT 
+            i_bad_B = np.abs(errs[reg]) >= LEM_ERROR_TOELRANCE_PCT
             self.bg_items[reg][0].setOpts(
-                x=self.S[reg][i_OK_B], height=self.BLEM_err[reg][i_OK_B],
+                x=self.S[reg][i_OK_B], height=errs[reg][i_OK_B],
                 brush='g', pen='g'
                 )
             self.bg_items[reg][1].setOpts(
-                x=self.S[reg][i_bad_B], height=self.BLEM_err[reg][i_bad_B],
+                x=self.S[reg][i_bad_B], height=errs[reg][i_bad_B],
                 brush='r', pen='r'
                 )
             if self.show_exc_err:
