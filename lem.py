@@ -195,7 +195,7 @@ class F2LEMApp(Display):
     def _magnet_set(self, device_list, bdes_list, magtype='EPICS'):
         # trim magnets to BLEM or to the backup_BDES
         try:
-            self._status(f'Trimming {type} magnets ...')
+            self._status(f'Trimming {magtype} magnets ...')
             print('magnet settings to input:')
             for d,b in zip(device_list, bdes_list): print(f'  {d}: {b:.4f}')
             if magtype == 'EPICS':
