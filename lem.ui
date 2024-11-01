@@ -1301,12 +1301,12 @@ background-color: rgb(230, 230, 230);
          </attribute>
          <layout class="QGridLayout" name="gridLayout_11">
           <item row="0" column="0">
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Loading ...</string>
+           <widget class="PyDMEmbeddedDisplay" name="PyDMEmbeddedDisplay">
+            <property name="toolTip">
+             <string/>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
+            <property name="filename" stdset="0">
+             <string>/usr/local/facet/tools/python/F2_LEM_GUI/klys_complement_control.py</string>
             </property>
            </widget>
           </item>
