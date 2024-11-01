@@ -160,7 +160,6 @@ class F2LEMApp(Display):
     def _undo(self):
         # restores backup momentum profile & magnet settings
         self._status('Undoing trim operation ...')
-        self.backup_BDES = None
 
         SLC_dev, SLC_bdes, EPICS_dev, EPICS_bdes = self._get_trim_request(undo=True)
         self._magnet_set(EPICS_dev, EPICS_bdes, magtype='EPICS')
@@ -168,6 +167,7 @@ class F2LEMApp(Display):
 
         self._publish_momentum_profile(live=False)
         self.ui.ctrl_undo.setEnabled(False)
+        self.backup_BDES = None
         self._status('Done')
 
     def _get_trim_request(self, undo=False):
