@@ -101,7 +101,7 @@ class F2KlysStatBarPlots(Display):
         self.pw_PDES.setXRange(110, 200)
         self.pw_PDES.setYRange(-190, 190)
 
-    def ui_filename(self): return os.path.join(SELF_PATH, 'klys_enld_plot.ui')
+    def ui_filename(self): return os.path.join(SELF_PATH, 'klys_stat_plots.ui')
 
     def _update_ENLD(self, klys_channel, idx, value, **kw):
         self.bars_ENLD[klys_channel].setOpts(x=idx, height=value)

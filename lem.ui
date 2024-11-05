@@ -1075,7 +1075,7 @@ background-color: rgb(230, 230, 230);
          </font>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pz_tab">
          <attribute name="title">
