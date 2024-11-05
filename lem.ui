@@ -1075,7 +1075,7 @@ background-color: rgb(230, 230, 230);
          </font>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pz_tab">
          <attribute name="title">
@@ -1289,7 +1289,7 @@ background-color: rgb(230, 230, 230);
              <string/>
             </property>
             <property name="filename" stdset="0">
-             <string>/usr/local/facet/tools/python/F2_LEM_GUI/klys_enld_plot.py</string>
+             <string>/usr/local/facet/tools/python/F2_LEM_GUI/klys_stat_plots.py</string>
             </property>
            </widget>
           </item>
