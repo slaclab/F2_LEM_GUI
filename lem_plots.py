@@ -75,9 +75,12 @@ class F2LEMPlots(Display):
         # make some calculations & pack data into relevant arrays
         LEM_data = ctx.get(f'{LEM_BASE}:DATA').value
         LEM_ref_profile = ctx.get(f'{LEM_BASE}:PROFILE').value
+        print(LEM_ref_profile)
         twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
 
         self.pz_live = twiss_data.p0c
+        # self.E_err = 100 * (LEM_data.EACT - LEM_ref_profile) / LEM_data.EACT
+
         self.E_err = 100 * (LEM_data.EACT - LEM_ref_profile) / LEM_data.EACT
 
         self.BDESes = {}
@@ -119,14 +122,14 @@ class F2LEMPlots(Display):
                     self.BLEMs_ext[reg].append(LEM_data.BLEM_EXTANT[i])
 
             self.all_S = np.array(self.all_S)
-            self.BLEMs[reg] =      np.array(self.BLEMs[reg], dtype=np.float64)
-            self.BLEMs_ext[reg] =  np.array(self.BLEMs_ext[reg], dtype=np.float64)
-            self.BDESes[reg] =     np.array(self.BDESes[reg], dtype=np.float64)
-            self.S[reg] =          np.array(self.S[reg], dtype=np.float64)
-            exc_blem, exc_bdes =   np.array(exc_blem), np.array(exc_bdes)
-            self.BLEM_err[reg] = 100*(self.BLEMs[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
+            self.BLEMs[reg] =        np.array(self.BLEMs[reg], dtype=np.float64)
+            self.BLEMs_ext[reg] =    np.array(self.BLEMs_ext[reg], dtype=np.float64)
+            self.BDESes[reg] =       np.array(self.BDESes[reg], dtype=np.float64)
+            self.S[reg] =            np.array(self.S[reg], dtype=np.float64)
+            exc_blem, exc_bdes =     np.array(exc_blem), np.array(exc_bdes)
+            self.BLEM_err[reg] =     100*(self.BLEMs[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
             self.BLEM_ext_err[reg] = 100*(self.BLEMs_ext[reg] - self.BDESes[reg])/np.abs(self.BDESes[reg])
-            self.exc_err[reg] = 100*(exc_blem - exc_bdes)/np.abs(exc_bdes)
+            self.exc_err[reg] =      100*(exc_blem - exc_bdes)/np.abs(exc_bdes)
 
     def _update_LEM_plots(self):
         self.pzdat1.setData(self.f2m.S, self.pz_live)

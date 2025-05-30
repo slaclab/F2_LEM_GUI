@@ -70,7 +70,7 @@ class F2LEMApp(Display):
         self.ui.pub_prof_live.clicked.connect(
             partial(self._publish_momentum_profile, live=True)
             )
-        
+
         self.refresh_timer = QTimer(self)
         self.refresh_timer.start()
         self.refresh_timer.setInterval(UPDATE_INTERVAL_MSEC)
@@ -85,7 +85,9 @@ class F2LEMApp(Display):
 
     def _refresh(self):
         try:
+            print(1)
             self._update_data()
+            print(2)
             self._update_LEM_table()
         except Exception as E:
             self._status('ERROR: LEM data update failed')
@@ -94,10 +96,7 @@ class F2LEMApp(Display):
     def _update_data(self):
         # fetches new LEM data, live twiss data (for live p(z)) and magnet BDESes
         self.LEM_data = ctx.get(f'{LEM_BASE}:DATA').value
-        if self.LEM_ref_profile is None:
-            self.LEM_ref_profile = self.LEM_data.EREF
-        else:
-            self.LEM_ref_profile = self._get_LEM_ref_profile()
+        self.LEM_ref_profile = ctx.get(f'{LEM_BASE}:PROFILE').value
         twiss_data = ctx.get('BMAD:SYS0:1:FACET2E:LIVE:TWISS').value
         self.pz_live = twiss_data.p0c
 
@@ -118,7 +117,7 @@ class F2LEMApp(Display):
                 dname = self.LEM_data.device_name[i]
 
                 self.BDES[i] = get_pv(f"{dname}:BDES").value
-                
+
                 tbl.insertRow(i)
                 tbl.setItem(i, 0,  QTableWidgetItem(f'{reg}'))
                 tbl.setItem(i, 1,  QTableWidgetItem(f'{elem}'))
@@ -214,7 +213,7 @@ class F2LEMApp(Display):
         if live and design: raise ValueError('Invalid args')
         if live:
             msg = 'Publishing reference momentum ...'
-            prof = self.LEM_ref_profile
+            prof = self._get_LEM_ref_profile()
         elif design:
             msg = 'Setting reference momentum to design ...'
             prof = self.LEM_data.EREF
@@ -228,9 +227,11 @@ class F2LEMApp(Display):
     def _get_LEM_ref_profile(self):
         # get the energy profile at time of trim request
         # to be written to BMAD:SYS0:1:FACET2E:LEM:PROFILE
+
         prof = np.ndarray(len(self.LEM_data.device_name))
         for i, device in enumerate(self.LEM_data.device_name):
             if not self.enable_buttons[self.LEM_data.region[i]].isChecked():
+                print(f'excluding not including {device} ...')
                 prof[i] =  self.LEM_ref_profile[i]
             else:
                 prof[i] = self.LEM_data.EACT[i]
